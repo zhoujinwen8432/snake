@@ -41,7 +41,7 @@ function start() {
   document.querySelector('.start').disabled = true
   document.querySelector('.edit').disabled = true
   const map = document.querySelectorAll('.box')
-  time = ((length === 13) ? 300 : (length === 21 ? 150 : 50))
+  time = ((length === 13) ? 250 : (length === 21 ? 150 : 50))
   apples = ((length === 13) ? 4 : (length === 21 ? 7 : 10))
 
   map[snakeTopPosition].classList.add('snake-top')
@@ -50,7 +50,7 @@ function start() {
     snakeMove()
   }, time)
 }
-
+//为什么没有改
 document.addEventListener('keydown', e => {
   switch (e.code) {
     case 'KeyA':
