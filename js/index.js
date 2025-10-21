@@ -1,4 +1,5 @@
 let length = 13
+let time = 400
 let towards = 1
 let snakeBodyLength = 5
 let count = 0
@@ -15,6 +16,7 @@ document.querySelector('#length').addEventListener('change', e => {
   document.querySelector('.map').style.gridTemplateRows = `repeat(${length + 2},1fr)`
   addMap()
 })
+document.querySelector('.edit').addEventListener('click', editMap)
 addMap()
 
 function addMap() {
@@ -36,15 +38,17 @@ function addMap() {
 document.querySelector('.start').addEventListener('click', start)
 
 function start() {
+  document.querySelector('.start').disabled = true
+  document.querySelector('.edit').disabled = true
   const map = document.querySelectorAll('.box')
+  time = ((length === 13) ? 300 : (length === 21 ? 150 : 50))
+  apples = ((length === 13) ? 4 : (length === 21 ? 7 : 10))
 
   map[snakeTopPosition].classList.add('snake-top')
-  addApple()
-  addApple()
-  addApple()
+  addApple(apples)
   move = setInterval(function () {
     snakeMove()
-  }, 200)
+  }, time)
 }
 
 document.addEventListener('keydown', e => {
@@ -72,6 +76,8 @@ function reset() {
   snakeTopPosition = parseInt(length * length / 2)
   snakeBodyPosition = []
   towards = 1
+  document.querySelector('.start').disabled = false
+  document.querySelector('.edit').disabled = false
   if (document.querySelector('.snake-top'))
     document.querySelector('.snake-top').classList.remove('snake-top')
   if (document.querySelector('.snake-body'))
@@ -100,7 +106,7 @@ function snakeMove() {
     document.querySelector('.snake-top.apple').classList.remove('apple')
     snakeBodyLength++
     count++
-    addApple()
+    addApple(1)
   }
   if (snakeBodyLength < document.querySelectorAll('.snake-body').length) {
     const position = snakeBodyPosition.pop()
@@ -108,13 +114,29 @@ function snakeMove() {
   }
 }
 
-function addApple() {
-  const position = parseInt(Math.random() * length * length)
-  const box = document.querySelector(`[id="${position}"]`).classList
-  if (box.contains('snake-top') || box.contains('snake-body') || box.contains('block')) {
-    addApple()
-    return
+function addApple(n) {
+  for (let i = 0; i < n; i++) {
+    const position = parseInt(Math.random() * (length + 2) * (length + 2))
+    console.log(position)
+    const box = document.querySelector(`[id="${position}"]`).classList
+    if (box.contains('snake-top') || box.contains('snake-body') || box.contains('block')) {
+      addApple(1)
+      continue
+    }
+    box.add('apple')
   }
-  box.add('apple')
 }
+
+function editMap() {
+  document.querySelector('.start').disabled = true
+  document.querySelector('.map').addEventListener('click', function addBlock(e) {
+    if (e.target.classList.contains('box'))
+      e.target.classList.replace('box', 'block')
+    else {
+      this.removeEventListener('click', addBlock)
+      document.querySelector('.start').disabled = false
+    }
+  })
+}
+
 

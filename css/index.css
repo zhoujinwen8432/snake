@@ -18,9 +18,11 @@
   font-size: 14px;
 }
 
-.start {
+.start,
+.edit {
   float: left;
   margin-top: 20px;
+  margin-left: 20px;
   height: 25px;
 }
 
@@ -43,7 +45,7 @@
   text-align: center;
 }
 
-.block {
+.map .block {
   background-color: burlywood;
 }
 
@@ -85,4 +87,13 @@
   left: 50px;
   width: 30px;
   height: 30px;
+}
+
+.rule {
+  position: fixed;
+  right: 0;
+  top: 200px;
+  width: 200px;
+  overflow: scroll;
+
 }
